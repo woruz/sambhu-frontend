@@ -2,15 +2,23 @@ import React, {useState, useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Popup from 'reactjs-popup';
 import { toast } from 'react-toastify';
+import useSampleText from '../hooks/useSampleText';
+import VariantsExample from './Spinner';
 
 const PracticeArea = () => {
   const [show, setShow] = useState(false)
+  const {isLoading,allSampleText,save_sample_text} = useSampleText()
+
 
   let open_modal = () => {
     setShow(!show)
   }
 
-  let sample_text_handle_save = () => {
+  let sample_text_handle_save = (sample) => {
+    save_sample_text({
+      userId: "6494824969281cd65c3ee494",
+      paragraph: sample
+    })
     setShow(false)
   }
 
@@ -30,7 +38,7 @@ const PracticeArea = () => {
             setSample(e.target.value)
           }} />
           <div style={{margin: "1rem"}}>
-            <Button variant="outline-success" onClick={sample_text_handle_save}>Save</Button>{" "}
+            <Button variant="outline-success" onClick={() => sample_text_handle_save(sample)}>Save</Button>{" "}
             <Button variant="outline-danger" onClick={() => {
               setShow(false)
             }}>Cancel</Button>{" "}
@@ -42,6 +50,7 @@ const PracticeArea = () => {
   }
   return (
     <>
+      {isLoading && <VariantsExample />}
       <Popup open={show} >
         <Modal />
       </Popup>
@@ -52,7 +61,7 @@ const PracticeArea = () => {
         <div>
           <label style={{ display: "flex", flexDirection: "column" }}>
             <h4>Sample Paragraph</h4>
-            <textarea name="postContent" readOnly={true} rows={7} value="Hello World Hii i am sabil"/>
+            <textarea name="postContent" readOnly={true} rows={7} value={allSampleText[0].paragraph}/>
           </label>
         </div>
 
