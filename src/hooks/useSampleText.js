@@ -10,7 +10,6 @@ const useSampleText = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        console.log({msg: "Hello World"})
         get_all_sample_text()
     }, [])
     
@@ -33,9 +32,8 @@ const useSampleText = () => {
     let get_all_sample_text = () => {
         setIsLoading(true)
         return axios.get(`${endPoint}/sampleText/getAllParagraph`).then((response) => {
-            console.log({response})
-            if(response.data.success){
-                setAllSampleText(response.data.result)
+            if(response?.data?.success){
+                setAllSampleText(response?.data?.result)
             }else{
                 setAllSampleText([])
             }
